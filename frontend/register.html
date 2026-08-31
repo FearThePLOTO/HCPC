@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Register - HCPC</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <img src="/assets/huaweiLogo.png" alt="Huawei" class="logo-img" />
+        <div class="logo-text"><span>HCPC <em>2026</em></span><small>Huawei Competitive Programming Contest</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a><a href="/rules">Rules</a>
+        <div class="nav-profile" id="nav-profile"><a href="/login"><span class="avatar">HU</span> Login</a></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="form-wrap">
+      <div class="alert alert-warn">NOTE: Demo purposes only - do not enter real personal information. All data is stored locally for this lab.</div>
+      <div class="form-card">
+        <h2>New Player</h2>
+        <p class="desc">Create your save file. Individual entry. Egyptian universities only.</p>
+        <div id="msg"></div>
+        <form id="registerForm">
+          <div class="form-grid">
+            <div><label>First Name</label><input name="first_name" required placeholder="Ahmed" /></div>
+            <div><label>Last Name</label><input name="last_name" required placeholder="Mostafa" /></div>
+            <div><label>Phone Number</label><input name="phone" required placeholder="0100 123 4567" /></div>
+            <div><label>National ID</label><input name="national_id" required placeholder="2990..." /></div>
+            <div class="full"><label>Email Address</label><input name="email" type="email" required placeholder="ahmed@university.edu.eg" /></div>
+            <div><label>Gender</label><select name="gender" required><option value="">Select</option><option value="male">Male</option><option value="female">Female</option></select></div>
+            <div><label>University</label><select name="university" required>
+              <option value="">Select university</option>
+              <option>Cairo University</option><option>Ain Shams University</option><option>Alexandria University</option><option>Mansoura University</option><option>Assiut University</option><option>Tanta University</option><option>Zagazig University</option><option>Helwan University</option><option>Benha University</option><option>Suez University</option><option>Port Said University</option><option>Menoufia University</option><option>Minia University</option><option>South Valley University</option><option>Aswan University</option><option>Beni-Suef University</option><option>Fayoum University</option><option>Kafrelsheikh University</option><option>Sohag University</option><option>Damietta University</option><option>Other</option>
+            </select></div>
+            <div class="full"><label>Academic Status</label><select name="status" required><option value="">Select status</option><option value="1st year">1st year</option><option value="2nd year">2nd year</option><option value="3rd year">3rd year</option><option value="4th year">4th year</option><option value="graduate">Graduate</option></select></div>
+            <div class="full"><label>Password</label><input name="password" type="password" required placeholder="At least 6 characters" minlength="6" /></div>
+          </div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top:18px; justify-content:center;">Create Save</button>
+          <p style="text-align:center; margin-top:14px; font-size:11px; color:var(--mid-gray); font-family: var(--mono);">Already have a save? <a href="/login" style="font-weight:700;">Load Game</a></p>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer><div class="footer-inner"><div><strong>HCPC 2026</strong> 8-bit edition. Huawei red. Insert coin.</div><div><a href="/">Home</a> - <a href="/login">Login</a></div></div></footer>
+  <script src="/js/main.js"></script>
+  <script>
+    document.getElementById('registerForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const fd = new FormData(e.target);
+      const data = Object.fromEntries(fd.entries());
+      const msg = document.getElementById('msg');
+      msg.innerHTML = '';
+      try {
+        const res = await fetch('/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
+        const j = await res.json();
+        if (!res.ok) throw new Error(j.error || 'Registration failed');
+        msg.innerHTML = `<div class="alert alert-success">Player created! Loading save...</div>`;
+        setTimeout(()=> location.href = `/profile/${j.id}`, 600);
+      } catch(err) {
+        msg.innerHTML = `<div class="alert alert-error">${err.message}</div>`;
+      }
+    });
+  </script>
+</body>
+</html>

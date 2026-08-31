@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login - HCPC</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <img src="/assets/huaweiLogo.png" alt="Huawei" class="logo-img" />
+        <div class="logo-text"><span>HCPC <em>2026</em></span><small>Huawei Competitive Programming Contest</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a><a href="/rules">Rules</a>
+        <div class="nav-profile" id="nav-profile"><a href="/login"><span class="avatar">HU</span> Login</a></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    <div class="form-wrap" style="max-width:480px;">
+      <div class="form-card">
+        <h2>Load Game</h2>
+        <p class="desc">Enter your credentials to load your save file.</p>
+        <div id="msg"></div>
+        <form id="loginForm">
+          <div style="margin-bottom:14px;"><label>Email Address</label><input name="email" type="email" required placeholder="you@university.edu.eg" /></div>
+          <div style="margin-bottom:6px;"><label>Password</label><input name="password" type="password" required placeholder="..............." /></div>
+          <button type="submit" class="btn btn-primary" style="width:100%; margin-top:16px; justify-content:center;">Continue</button>
+          <p style="text-align:center; margin-top:14px; font-size:11px; color:var(--mid-gray); font-family: var(--mono);">No save file? <a href="/register" style="font-weight:700;">New Game</a></p>
+        </form>
+        <div style="margin-top:18px; background:var(--light-gray); border:3px solid #000; padding:10px; font-family: var(--mono); font-size:11px; color:var(--mid-gray); box-shadow: 3px 3px 0 #000;">
+          Tip: After login you will be sent to your player profile at /profile/&lt;id&gt;.
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer><div class="footer-inner"><div><strong>HCPC 2026</strong> 8-bit edition.</div><div><a href="/">Home</a> - <a href="/register">Register</a></div></div></footer>
+  <script src="/js/main.js"></script>
+  <script>
+    document.getElementById('loginForm').addEventListener('submit', async (e)=>{
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(e.target).entries());
+      const msg = document.getElementById('msg');
+      msg.innerHTML='';
+      try{
+        const res = await fetch('/api/login',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify(data)});
+        const j = await res.json();
+        if(!res.ok) throw new Error(j.error);
+        msg.innerHTML = `<div class="alert alert-success">Save loaded! Starting...</div>`;
+        setTimeout(()=> location.href = `/profile/${j.id}`, 600);
+      }catch(err){ msg.innerHTML = `<div class="alert alert-error">${err.message}</div>`; }
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Profile - HCPC</title>
+  <link rel="stylesheet" href="/css/style.css" />
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-inner">
+      <a href="/" class="logo">
+        <img src="/assets/huaweiLogo.png" alt="Huawei" class="logo-img" />
+        <div class="logo-text"><span>HCPC <em>2026</em></span><small>Huawei Competitive Programming Contest</small></div>
+      </a>
+      <div class="nav-links">
+        <a href="/">Home</a><a href="/rules">Rules</a>
+        <div class="nav-profile" id="nav-profile"><a href="/login"><span class="avatar">HU</span> Login</a></div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container" style="max-width:780px;">
+    <div id="status"></div>
+    <div id="profile" style="display:none;">
+      <div class="profile-header">
+        <div class="profile-avatar" id="avatar">?</div>
+        <div class="profile-meta">
+          <h2 id="name">-</h2>
+          <p id="subtitle">-</p>
+          <p style="margin-top:6px;"><span id="badge" class="tag tag-red" style="font-size:9px;">P1 - HCPC 2026 - ID <span id="pid">-</span></span></p>
+        </div>
+        <div style="margin-left:auto; text-align:right;">
+          <div style="font-family: var(--pixel); font-size:7px; letter-spacing:0.5px; text-transform:uppercase; color:#9CA3AF;">Save Slot</div>
+          <div style="font-family:'JetBrains Mono', monospace; font-size:12px; background:white; padding:6px 10px; border:3px solid #000; box-shadow: 3px 3px 0 #000;" id="urlShow">/profile/-</div>
+          <div style="font-family: var(--mono); font-size:10px; color:var(--mid-gray); margin-top:6px;">Player card</div>
+        </div>
+      </div>
+
+      <div class="info-grid">
+        <div class="info-item"><span>First Name</span><strong id="f_first"></strong></div>
+        <div class="info-item"><span>Last Name</span><strong id="f_last"></strong></div>
+        <div class="info-item"><span>Email Address</span><strong id="f_email"></strong></div>
+        <div class="info-item"><span>Phone Number</span><strong id="f_phone"></strong></div>
+        <div class="info-item"><span>National ID</span><strong id="f_nid"></strong></div>
+        <div class="info-item"><span>Gender</span><strong id="f_gender"></strong></div>
+        <div class="info-item"><span>University</span><strong id="f_uni"></strong></div>
+        <div class="info-item"><span>Academic Status</span><strong id="f_status"></strong></div>
+      </div>
+    </div>
+  </main>
+
+  <footer><div class="footer-inner"><div><strong>HCPC 2026</strong> 8-bit edition. Player card.</div><div><a href="/">Home</a></div></div></footer>
+  <script src="/js/main.js"></script>
+  <script>
+    async function loadProfile(){
+      const id = location.pathname.split('/').pop();
+      document.getElementById('urlShow').textContent = `/profile/${id}`;
+      document.getElementById('pid').textContent = id;
+      const status = document.getElementById('status');
+      try{
+        const res = await fetch(`/api/profile/${id}`);
+        if(res.status===401){ status.innerHTML=`<div class="alert alert-error">You must be logged in to view this save. <a href="/login">Load Game</a></div>`; return; }
+        if(res.status===404){ status.innerHTML=`<div class="alert alert-error">Save #${id} not found.</div>`; return; }
+        if(!res.ok){ const j=await res.json(); throw new Error(j.error); }
+        const user = await res.json();
+        document.getElementById('profile').style.display='block';
+        document.getElementById('avatar').textContent = (user.first_name[0]+user.last_name[0]).toUpperCase();
+        document.getElementById('name').textContent = `${user.first_name} ${user.last_name}`;
+        document.getElementById('subtitle').textContent = `${user.university} - ${user.status}`;
+        document.getElementById('f_first').textContent=user.first_name;
+        document.getElementById('f_last').textContent=user.last_name;
+        document.getElementById('f_email').textContent=user.email;
+        document.getElementById('f_phone').textContent=user.phone;
+        document.getElementById('f_nid').textContent=user.national_id;
+        document.getElementById('f_gender').textContent=user.gender;
+        document.getElementById('f_uni').textContent=user.university;
+        document.getElementById('f_status').textContent=user.status;
+      }catch(e){ status.innerHTML=`<div class="alert alert-error">Error: ${e.message}</div>`; }
+    }
+    loadProfile();
+  </script>
+</body>
+</html>

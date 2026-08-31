@@ -1,0 +1,38 @@
+<svg width="400" height="300" viewBox="0 0 400 300" fill="none" xmlns="http://www.w3.org/2000/svg">
+<!-- retro network grid background -->
+<rect width="400" height="300" fill="#0F1115"/>
+<pattern id="grid" width="32" height="32" patternUnits="userSpaceOnUse">
+  <path d="M 32 0 L 0 0 0 32" fill="none" stroke="rgba(199,0,11,0.08)" stroke-width="1"/>
+</pattern>
+<rect width="400" height="300" fill="url(#grid)"/>
+<!-- nodes -->
+<circle cx="80" cy="80" r="12" fill="#1A1A1E" stroke="#C7000B" stroke-width="2"/>
+<circle cx="80" cy="80" r="4" fill="#C7000B"/>
+<circle cx="200" cy="80" r="12" fill="#1A1A1E" stroke="#C7000B" stroke-width="2"/>
+<circle cx="200" cy="80" r="4" fill="#C7000B"/>
+<circle cx="320" cy="80" r="12" fill="#1A1A1E" stroke="#2D2D33" stroke-width="2"/>
+<circle cx="320" cy="80" r="4" fill="#6B7280"/>
+<circle cx="80" cy="180" r="12" fill="#1A1A1E" stroke="#C7000B" stroke-width="2"/>
+<circle cx="80" cy="180" r="4" fill="#C7000B"/>
+<circle cx="200" cy="180" r="16" fill="#C7000B" stroke="#9E0009" stroke-width="2"/>
+<circle cx="200" cy="180" r="6" fill="white"/>
+<circle cx="320" cy="180" r="12" fill="#1A1A1E" stroke="#C7000B" stroke-width="2"/>
+<circle cx="320" cy="180" r="4" fill="#C7000B"/>
+<!-- connections red -->
+<line x1="92" y1="80" x2="188" y2="80" stroke="#C7000B" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="212" y1="80" x2="308" y2="80" stroke="#2D2D33" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="80" y1="92" x2="80" y2="168" stroke="#C7000B" stroke-width="1.5" stroke-dasharray="6 4"/>
+<line x1="92" y1="180" x2="184" y2="180" stroke="#C7000B" stroke-width="1.5"/>
+<line x1="216" y1="180" x2="308" y2="180" stroke="#C7000B" stroke-width="1.5"/>
+<line x1="200" y1="92" x2="200" y2="164" stroke="#C7000B" stroke-width="1.5"/>
+<line x1="320" y1="92" x2="320" y2="168" stroke="#2D2D33" stroke-width="1.5" stroke-dasharray="6 4"/>
+<!-- packet dots -->
+<circle cx="140" cy="80" r="3" fill="#FF1A2B"><animate attributeName="opacity" values="1;0.2;1" dur="1.2s" repeatCount="indefinite"/></circle>
+<circle cx="140" cy="180" r="3" fill="#FF1A2B"><animate attributeName="opacity" values="0.2;1;0.2" dur="1.2s" repeatCount="indefinite"/></circle>
+<circle cx="260" cy="180" r="3" fill="#FF1A2B" opacity="0.6"/>
+<!-- labels mono -->
+<text x="80" y="210" text-anchor="middle" font-family="monospace" font-size="8" fill="#9CA3AF" letter-spacing="0.5">NODE_01</text>
+<text x="200" y="210" text-anchor="middle" font-family="monospace" font-size="8" fill="#C7000B" letter-spacing="0.5" font-weight="bold">CORE_00</text>
+<text x="320" y="210" text-anchor="middle" font-family="monospace" font-size="8" fill="#9CA3AF" letter-spacing="0.5">NODE_03</text>
+<text x="200" y="40" text-anchor="middle" font-family="monospace" font-size="7" fill="#6B7280" letter-spacing="1">PACKET_FLOW_2026</text>
+</svg>
